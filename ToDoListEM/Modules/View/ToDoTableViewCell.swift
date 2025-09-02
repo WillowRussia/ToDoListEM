@@ -17,7 +17,6 @@ class ToDoTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
         setupUI()
         setupConstraints()
     }

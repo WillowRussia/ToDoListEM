@@ -129,6 +129,7 @@ extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ToDoTableViewCell.reuseIdentifier, for: indexPath) as! ToDoTableViewCell
+        cell.selectionStyle = .none  
         cell.configure(with: tasks[indexPath.row])
         return cell
     }
