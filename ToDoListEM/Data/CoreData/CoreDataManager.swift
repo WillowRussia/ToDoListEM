@@ -1,13 +1,21 @@
+//
+//  CoreDataManager.swift
+//  ToDoListEM
+//
+//  Created by Илья Востров on 28.08.2025.
+//
+
+
 import CoreData
 
 class CoreDataManager {
     static let shared = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "ToDoModel")
+        let container = NSPersistentContainer(name: "ToDoListModel")
         container.loadPersistentStores { _, error in
             if let error = error {
-                fatalError("Failed to load Core Data: \(error)")
+                fatalError("Ошибка загрузги данных из CoreData: \(error)")
             }
         }
         return container
@@ -23,7 +31,7 @@ class CoreDataManager {
                 do {
                     try self.context.save()
                 } catch {
-                    print("Save failed: \(error)")
+                    print("Ошибка сохранения: \(error)")
                 }
             }
         }

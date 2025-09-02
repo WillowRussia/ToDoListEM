@@ -1,6 +1,14 @@
+//
+//  ToDoInteractor.swift
+//  ToDoListEM
+//
+//  Created by Илья Востров on 28.08.2025.
+//
+
+
 import CoreData
 
-class ToDoInteractor {
+class ToDoInteractor: ToDoInteractorInput {
     weak var presenter: ToDoInteractorOutput?
     
     func loadTasksFromAPI() {
@@ -70,10 +78,11 @@ class ToDoInteractor {
             let context = CoreDataManager.shared.context
             let item = NSEntityDescription.insertNewObject(forEntityName: "CDToDoItem", into: context) as! CDToDoItem
             item.id = Int16(self.getNextId())
-            item.title = title
+            item.title = title.isEmpty ? "Новая задача" : title
             item.note = note
             item.createdAt = Date()
             item.isCompleted = false
+            
             do {
                 try context.save()
                 DispatchQueue.main.async {

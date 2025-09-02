@@ -1,4 +1,11 @@
-// Протокол
+//
+//  ToDoInteractorInput.swift
+//  ToDoListEM
+//
+//  Created by Илья Востров on 02.09.2025.
+//
+
+
 protocol ToDoInteractorInput: AnyObject {
     func loadTasksFromAPI()
     func fetchAllTasks()

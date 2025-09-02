@@ -1,3 +1,9 @@
+//
+//  APIService.swift
+//  ToDoListEM
+//
+//  Created by Илья Востров on 28.08.2025.
+//
 import Foundation
 
 class APIService {
@@ -20,12 +26,8 @@ class APIService {
             }
             
             do {
-                let result = try JSONDecoder().decode([String: [NetworkToDo]].self, from: data)
-                if let todos = result["todos"] {
-                    completion(.success(todos))
-                } else {
-                    completion(.failure(NSError(domain: "Invalid format", code: 0)))
-                }
+                let response = try JSONDecoder().decode(APIResponse.self, from: data)
+                completion(.success(response.todos))
             } catch {
                 completion(.failure(error))
             }

@@ -1,3 +1,10 @@
+//
+//  ToDoTableViewCell.swift
+//  ToDoListEM
+//
+//  Created by Илья Востров on 28.08.2025.
+//
+
 import UIKit
 
 class ToDoTableViewCell: UITableViewCell {
@@ -7,11 +14,10 @@ class ToDoTableViewCell: UITableViewCell {
     private let noteLabel = UILabel()
     private let dateLabel = UILabel()
     private let statusButton = UIButton()
-    private let avatarStackView = UIStackView()
-    private let separatorView = UIView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         setupUI()
         setupConstraints()
     }
@@ -36,34 +42,12 @@ class ToDoTableViewCell: UITableViewCell {
         
         statusButton.setImage(UIImage(systemName: "circle"), for: .normal)
         statusButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-        statusButton.tintColor = .systemYellow
+        statusButton.tintColor = UIColor(red: 0xFF/255.0, green: 0xD7/255.0, blue: 0x02/255.0, alpha: 1.0)
         statusButton.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
         
-        avatarStackView.axis = .horizontal
-        avatarStackView.spacing = 4
-        avatarStackView.alignment = .center
-        
-        separatorView.backgroundColor = .separator
-        
-        [titleLabel, noteLabel, dateLabel, statusButton, avatarStackView, separatorView].forEach {
+        [titleLabel, noteLabel, dateLabel, statusButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
-        }
-        
-        addAvatars()
-    }
-    
-    private func addAvatars() {
-        ["M", "I", "D"].forEach { letter in
-            let button = UIButton(type: .system)
-            button.setTitle(letter, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 10, weight: .bold)
-            button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = UIColor.randomColor()
-            button.layer.cornerRadius = 16
-            button.clipsToBounds = true
-            button.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
-            avatarStackView.addArrangedSubview(button)
         }
     }
     
@@ -80,38 +64,22 @@ class ToDoTableViewCell: UITableViewCell {
             
             noteLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             noteLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            noteLabel.trailingAnchor.constraint(lessThanOrEqualTo: avatarStackView.leadingAnchor, constant: -8),
+            noteLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -60),
             
             dateLabel.topAnchor.constraint(equalTo: noteLabel.bottomAnchor, constant: 4),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -4),
-            
-            avatarStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            avatarStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            avatarStackView.heightAnchor.constraint(equalToConstant: 32),
-            
-            separatorView.heightAnchor.constraint(equalToConstant: 0.5),
-            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            dateLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -4)
         ])
     }
     
     func configure(with task: ToDoItem) {
         titleLabel.text = task.title
         noteLabel.text = task.note.isEmpty ? nil : task.note
-        dateLabel.text = task.createdAt.formatted(date: .abbreviated, time: .omitted)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        dateLabel.text = formatter.string(from: task.createdAt)
+        
         statusButton.isSelected = task.isCompleted
-    }
-}
-
-extension UIColor {
-    static func randomColor() -> UIColor {
-        return UIColor(
-            red: .random(in: 0...1),
-            green: .random(in: 0...1),
-            blue: .random(in: 0...1),
-            alpha: 1.0
-        )
     }
 }

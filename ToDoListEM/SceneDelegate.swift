@@ -11,15 +11,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
-    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
         let window = UIWindow(windowScene: windowScene)
+        let navigationController = UINavigationController(rootViewController: ToDoRouter.createModule())
         
-        window.rootViewController = ViewController()
-        window.makeKeyAndVisible()
+        
+        navigationController.navigationBar.tintColor = UIColor(
+            red: 254/255.0,
+            green: 215/255.0,
+            blue: 2/255.0,
+            alpha: 1.0
+        )
+        
+        window.overrideUserInterfaceStyle = .dark
+
+        
+        window.rootViewController = navigationController
         self.window = window
-        
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
